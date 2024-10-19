@@ -33,12 +33,12 @@ def login(request):
                 messages.error(request, 'Invalid credentials.')
     else:
         form = LoginForm()
-    return render(request, 'login.html', {'form': form})
+    return render(request, app/'login.html', {'form': form})
 
 from django.shortcuts import render
 
 def home(request):
-    return render(request, 'myapp/index.html')
+    return render(request, 'index.html')
 
 from django.shortcuts import render
 from django.http import HttpResponse
