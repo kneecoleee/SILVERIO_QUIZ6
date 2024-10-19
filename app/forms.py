@@ -19,3 +19,16 @@ class RegistrationForm(forms.ModelForm):
     class LoginForm(forms.Form):
         email = forms.EmailField()
         password = forms.CharField(widget=forms.PasswordInput)
+
+from django import forms
+from django.contrib.auth.forms import AuthenticationForm
+
+class RegistrationForm(forms.Form):
+    username = forms.CharField(max_length=150)
+    email = forms.EmailField()
+    password = forms.CharField(widget=forms.PasswordInput)
+
+class LoginForm(AuthenticationForm):
+    username = forms.CharField(max_length=150, label='Username')
+    password = forms.CharField(widget=forms.PasswordInput, label='Password')
+
