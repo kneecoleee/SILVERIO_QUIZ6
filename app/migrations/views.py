@@ -34,3 +34,14 @@ def login(request):
     else:
         form = LoginForm()
     return render(request, 'login.html', {'form': form})
+
+from django.shortcuts import render
+
+def home(request):
+    return render(request, 'myapp/index.html')
+
+from django.shortcuts import render
+from django.http import HttpResponse
+
+def index(request):
+    return HttpResponse("Hello World")
