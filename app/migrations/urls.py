@@ -34,3 +34,12 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('first_app/', include('first_app.urls')),
 ]
+
+from django.urls import path
+from .views import register, create_post, post_list
+
+urlpatterns = [
+    path('register/', register, name='register'),
+    path('create_post/', create_post, name='create_post'),
+    path('posts/', post_list, name='post_list'),
+]

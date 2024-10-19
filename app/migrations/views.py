@@ -45,3 +45,26 @@ from django.http import HttpResponse
 
 def index(request):
     return HttpResponse("Hello World")
+
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def create_post(request):
+    if request.method == 'POST':
+        content = request.POST['content']
+        if not Post.objects.filter(user=request.user).exists():
+            Post.objects.create(user=request.user, content=content)
+            messages.success(request, 'Post created successfully.')
+        else:
+            messages.error(request, 'You can only post once.')
+        return redirect('post_list')
+    return render(request, 'create_post.html')
+
+from django.core.paginator import Paginator
+
+def post_list(request):
+    posts = Post.objects.all().order_by('-created_at')
+    paginator = Paginator(posts, 3)  # 3 posts per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'post_list.html', {'page_obj': page_obj})
