@@ -20,3 +20,12 @@ from django.urls import path
 urlpatterns = [
     path('admin/', admin.site.urls),
 ]
+
+from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),  # Admin panel
+    path('', include('app.urls')),    # Include app URLs for the homepage
+    path('login/', include('app.urls')),  # Include authentication URLs from myapp
+]
