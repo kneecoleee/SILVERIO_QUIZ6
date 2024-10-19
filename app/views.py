@@ -44,7 +44,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 def index(request):
-    return HttpResponse("Hello World")
+    return HttpResponse("Hello!")
 
 from django.contrib.auth.decorators import login_required
 
@@ -85,4 +85,26 @@ def login_view(request):
                 return redirect('home')  # Redirect to a success page
     else:
         form = AuthenticationForm()
+    return render(request, 'login.html', {'form': form})
+
+# views.py
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.contrib.auth import authenticate, login
+from .forms import LoginForm
+
+def login_view(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            user = authenticate(request, username=email, password=password)
+            if user is not None:
+                login(request, user)  # Log in the user
+                return redirect('post')  # Redirect to the post view
+            else:
+                messages.error(request, 'Invalid credentials.')
+    else:
+        form = LoginForm()
     return render(request, 'login.html', {'form': form})
